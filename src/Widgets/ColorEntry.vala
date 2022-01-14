@@ -9,7 +9,7 @@ namespace Colorful {
     public class ColorEntry : Gtk.Box {
         public Gtk.Entry entry { get; private set; }
         public Gtk.Button copy_button { get; private set; }
-        public string text { get; private set; }
+        public string text { get; set; }
 
         construct {
             orientation = HORIZONTAL;
@@ -17,7 +17,7 @@ namespace Colorful {
             add_css_class ("linked");
 
             entry = new Gtk.Entry () {
-                width_request = 390,
+                width_request = 290,
                 height_request = 40,
                 editable = false,
                 xalign = (float) 0.50
@@ -33,6 +33,10 @@ namespace Colorful {
             copy_button = new Gtk.Button () {
                 icon_name = "edit-copy-symbolic"
             };
+
+            copy_button.clicked.connect (() => {
+                get_clipboard ().set_text (text);
+            });
 
             append (entry);
             append (copy_button);

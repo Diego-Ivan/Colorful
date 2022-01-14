@@ -1,7 +1,10 @@
 colorful_sources = [
   'Application.vala',
-  'ColorEntry.vala',
-  'Window.vala',
+  
+  'Widgets/ColorEntry.vala',
+  'Widgets/Window.vala',
+  'Widgets/ColorImage.vala',
+  
   'main.vala',
 ]
 
