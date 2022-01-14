@@ -14,6 +14,11 @@ namespace Colorful {
             orientation = HORIZONTAL;
             digits = 0;
             adjustment = new Gtk.Adjustment (1, 0, 360, 1, 10, 0);
+            has_origin = false;
+            halign = CENTER;
+            width_request = 300;
+
+            add_css_class ("hue_slider");
 
             value_changed.connect (() => {
                 // gets the value in a range from 0 to 1, just as we need

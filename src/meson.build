@@ -10,10 +10,14 @@ colorful_sources = [
   'main.vala',
 ]
 
+cc = meson.get_compiler ('c')
+math = cc.find_library ('m')
+
 colorful_deps = [
   dependency('gtk4'),
   dependency('libadwaita-1'),
-  dependency('libportal-gtk4')
+  dependency('libportal-gtk4'),
+  math
 ]
 
 conf = configuration_data()

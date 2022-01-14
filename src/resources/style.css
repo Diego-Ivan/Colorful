@@ -1,3 +1,10 @@
 colorimage {
   border-radius: 15px;
 }
+
+.hue_slider trough {
+  background: linear-gradient(to right, red, orange, yellow, lime, aqua, blue, violet, red);
+
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
