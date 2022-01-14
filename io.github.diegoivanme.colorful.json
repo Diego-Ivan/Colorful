@@ -1,0 +1,55 @@
+{
+  "app-id": "io.github.diegoivanme.colorful",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "master",
+  "sdk": "org.gnome.Sdk",
+  "command": "colorfulgtk",
+  "finish-args": [
+    "--share=network",
+    "--share=ipc",
+    "--socket=fallback-x11",
+    "--device=dri",
+    "--socket=wayland"
+  ],
+  "cleanup": [
+    "/include",
+    "/lib/pkgconfig",
+    "/man",
+    "/share/doc",
+    "/share/gtk-doc",
+    "/share/man",
+    "/share/pkgconfig",
+    "/share/vala",
+    "*.la",
+    "*.a"
+  ],
+  "modules": [
+    {
+      "name": "libportal",
+      "buildsystem": "meson",
+      "builddir": true,
+      "config-opts": [
+        "-Dbackends=gtk4",
+        "-Ddocs=false"
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/flatpak/libportal.git",
+          "commit": "ab23adef5d85ffd4951e69f35438c3dbf79445a0"
+        }
+      ]
+    },
+    {
+      "name": "colorfulgtk",
+      "builddir": true,
+      "buildsystem": "meson",
+      "sources": [
+        {
+          "type": "git",
+          "url": "file:///home/diegoivan/Proyectos/Colorful"
+        }
+      ]
+    }
+  ]
+}
