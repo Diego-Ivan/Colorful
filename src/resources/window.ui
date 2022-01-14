@@ -31,14 +31,19 @@
             <property name="vexpand">true</property>
 
             <property name="child">
-              <object class="GtkBox">
+              <object class="GtkBox" id="main_box">
                 <property name="orientation">vertical</property>
                 <property name="spacing">20</property>
 
                 <child>
-                  <object class="GtkImage">
-                    <property name="icon-name">view-sort-descending-symbolic</property>
-                    <property name="pixel-size">100</property>
+                  <object class="GtkBox" id="color_box">
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">6</property>
+
+                    <child>
+                      <object class="ColorfulHueSlider" id="hue_slider"></object>
+                    </child>
+
                   </object>
                 </child>
 

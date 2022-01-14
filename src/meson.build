@@ -4,6 +4,8 @@ colorful_sources = [
   'Widgets/ColorEntry.vala',
   'Widgets/Window.vala',
   'Widgets/ColorImage.vala',
+  'Widgets/Chooser.vala',
+  'Widgets/HueSlider.vala',
   
   'main.vala',
 ]
