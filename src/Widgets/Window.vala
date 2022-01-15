@@ -80,6 +80,12 @@ namespace Colorful {
 	            (int) (s * 360),
 	            (int) (v * 360)
 	        );
+
+	        double red = r * 255;
+            double green = g * 255;
+            double blue = b * 255;
+
+            hex_entry.text = "#%02x%02x%02x".printf ((uint)red, (uint)green, (uint)blue);
 		}
 
 		[GtkCallback]
