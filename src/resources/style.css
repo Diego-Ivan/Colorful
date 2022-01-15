@@ -8,3 +8,11 @@ colorimage {
   padding-top: 6px;
   padding-bottom: 6px;
 }
+
+.dark image {
+  color: white;
+}
+
+.light image {
+  color: black;
+}

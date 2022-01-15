@@ -11,6 +11,7 @@ namespace Colorful {
         private const int HEIGHT = 100;
         private const int WIDTH = 100;
         private Gdk.RGBA _color;
+        private Gtk.Stack stack;
         public Gdk.RGBA color {
             get {
                 return _color;
@@ -20,6 +21,7 @@ namespace Colorful {
                 css_provider.load_from_data ((uint8[])
                     "* { background-color: %s; }".printf (value.to_string ())
                 );
+                update_light_settings ();
             }
         }
         
@@ -38,7 +40,7 @@ namespace Colorful {
                 Gtk.STYLE_PROVIDER_PRIORITY_USER
             );
             
-            var stack = new Gtk.Stack () {
+            stack = new Gtk.Stack () {
                 transition_type = SLIDE_UP_DOWN
             };
             stack.add_named (new Adw.Bin (), "clear");
@@ -75,6 +77,29 @@ namespace Colorful {
             add_controller (click_controller);
         }
         
+        private void update_light_settings () {
+            double sr = color_operation (color.red) *  0.2126;
+            double sg = color_operation (color.green) * 0.7152;
+            double sb = color_operation (color.blue) * 0.0722;
+
+            var final = sr + sg + sb;
+            if (final < 0.5) {
+                stack.add_css_class ("dark");
+                stack.remove_css_class ("light");
+            }
+            else {
+                stack.add_css_class ("light");
+                stack.remove_css_class ("dark");
+            }
+        }
+
+        private double color_operation (double c) {
+            if (c <= 0.03928)
+                return c / 12.92;
+            else
+                return Math.pow ((c + 0.055) / 1.055, 2.4);
+        }
+
         private void copy () {
             var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, WIDTH, HEIGHT);
             var context = new Cairo.Context (surface);
