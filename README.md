@@ -8,7 +8,9 @@
 
 An easy to use color picker. Flatpak friendly, crossdesktop.
 
-<img src="./data/Screenshots/02" align="center">
+<div align="center">
+<img src="./data/Screenshots/02.png">
+</div>
 
 ## Install and Running
 
