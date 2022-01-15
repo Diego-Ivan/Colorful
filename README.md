@@ -46,3 +46,7 @@ To install, run in the `builddir`:
 ```sh
 sudo ninja install
 ```
+
+## Credits
+
+The Chooser widget was borrowed from [Colorway](https://github.com/lainsce/colorway/). Thanks to Lainsce for creating such an amazing app!
