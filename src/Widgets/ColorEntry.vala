@@ -31,7 +31,8 @@ namespace Colorful {
             );
 
             copy_button = new Gtk.Button () {
-                icon_name = "edit-copy-symbolic"
+                icon_name = "edit-copy-symbolic",
+                tooltip_text = "Copy text"
             };
 
             copy_button.clicked.connect (() => {
