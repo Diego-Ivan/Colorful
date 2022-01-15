@@ -10,11 +10,13 @@ namespace Colorful {
 	public class Window : Adw.ApplicationWindow {
 	    [GtkChild] unowned ColorEntry rgb_entry;
 	    [GtkChild] unowned ColorEntry hex_entry;
+	    [GtkChild] unowned ColorEntry hsv_entry;
 	    [GtkChild] unowned ColorImage color_image;
 	    [GtkChild] unowned Gtk.Box color_box;
 	    [GtkChild] unowned HueSlider hue_slider;
 
-	    public Chooser chooser;
+	    private Chooser chooser;
+	    private Xdp.Portal portal;
 		
 		public Window (Gtk.Application app) {
 			Object (
@@ -23,6 +25,7 @@ namespace Colorful {
 		}
 
 		construct {
+		    portal = new Xdp.Portal ();
 		    color_image.color = {
 			    1,
 			    0,
@@ -43,8 +46,8 @@ namespace Colorful {
 		    float r, g, b;
 		    Gtk.hsv_to_rgb (
 		        hue_slider.current_hue,
-		        (float) chooser.s,
-		        (float) chooser.v,
+		        1,
+		        1,
 		        out r,
 		        out g,
 		        out b
@@ -72,6 +75,45 @@ namespace Colorful {
 	        };
 
 	        rgb_entry.text = color_image.color.to_string ();
+	        hsv_entry.text = "hsv(%i,%i,%i)".printf (
+	            (int) (hue_slider.current_hue * 360),
+	            (int) (s * 360),
+	            (int) (v * 360)
+	        );
+		}
+
+		[GtkCallback]
+		private void on_pick_color_button_clicked () {
+		    var parent = Xdp.parent_new_gtk (this);
+		    portal.pick_color.begin (
+		        parent,
+		        null,
+		        color_callback
+		    );
+		}
+
+		private void color_callback (Object? obj, AsyncResult res) {
+		    GLib.Variant colors;
+		    try {
+		        colors = portal.pick_color.end (res);
+		        double red = 0;
+                double green = 0;
+                double blue = 0;
+
+                GLib.VariantIter iter = colors.iterator ();
+                iter.next ("d", &red);
+                iter.next ("d", &green);
+                iter.next ("d", &blue);
+
+                double h, s, v;
+                Gtk.rgb_to_hsv ((float) red,(float) green, (float) blue, out h, out s, out v);
+
+                chooser.sv_to_pos ((float) s, (float) v);
+                hue_slider.adjustment.value = h * 360;
+		    }
+		    catch (Error e) {
+		        critical (e.message);
+		    }
 		}
 	}
 }
