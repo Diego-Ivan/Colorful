@@ -4,7 +4,7 @@
   <template class="ColorfulWindow" parent="AdwApplicationWindow">
     <property name="title"></property>
     <property name="default-width">390</property>
-    <property name="default-height">550</property>
+    <property name="default-height">575</property>
 
     <child>
       <object class="GtkBox">
@@ -19,6 +19,7 @@
             <child>
               <object class="GtkButton" id="pick_color_button">
                 <property name="icon-name">color-select-symbolic</property>
+                <property name="tooltip-text">Pick a color from the screen</property>
                 <signal name="clicked" handler="on_pick_color_button_clicked" swapped="no"/>
               </object>
             </child>
@@ -54,56 +55,24 @@
                 </child>
 
                 <child>
-                  <object class="GtkStackSwitcher">
-                    <property name="stack">copy_stack</property>
-                    <property name="halign">center</property>
-                    <property name="hexpand">true</property>
-                  </object>
-                </child>
-
-                <child>
                   <object class="ColorfulColorImage" id="color_image">
                     <property name="css_name">colorimage</property>
                   </object>
                 </child>
 
                 <child>
-                  <object class="GtkStack" id="copy_stack">
-
-                    <child>
-                      <object class="GtkStackPage">
-                        <property name="title">RGB</property>
-                        <property name="name">RGB</property>
-                        <property name="child">
-                          <object class="ColorfulColorEntry" id="rgb_entry">
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkStackPage">
-                        <property name="title">HEX</property>
-                        <property name="name">HEX</property>
-                        <property name="child">
-                          <object class="ColorfulColorEntry" id="hex_entry">
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-
-                    <child>
-                      <object class="GtkStackPage">
-                        <property name="title">HSV</property>
-                        <property name="name">HSV</property>
-                        <property name="child">
-                          <object class="ColorfulColorEntry" id="hsv_entry">
-                          </object>
-                        </property>
-                      </object>
-                    </child>
-
+                  <object class="GtkComboBoxText" id="options_combo">
+                    <property name="halign">center</property>
+                    <items>
+                      <item>RGB</item>
+                      <item>HEX</item>
+                      <item>HSV</item>
+                    </items>
                   </object>
+                </child>
+
+                <child>
+                  <object class="ColorfulColorEntry" id="color_entry"></object>
                 </child>
 
               </object>

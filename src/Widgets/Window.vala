@@ -8,12 +8,11 @@
 namespace Colorful {
 	[GtkTemplate (ui = "/io/github/diegoivanme/colorful/window.ui")]
 	public class Window : Adw.ApplicationWindow {
-	    [GtkChild] unowned ColorEntry rgb_entry;
-	    [GtkChild] unowned ColorEntry hex_entry;
-	    [GtkChild] unowned ColorEntry hsv_entry;
+	    [GtkChild] unowned ColorEntry color_entry;
 	    [GtkChild] unowned ColorImage color_image;
 	    [GtkChild] unowned Gtk.Box color_box;
 	    [GtkChild] unowned HueSlider hue_slider;
+	    [GtkChild] unowned Gtk.ComboBoxText options_combo;
 
 	    private Chooser chooser;
 	    private Xdp.Portal portal;
@@ -38,6 +37,8 @@ namespace Colorful {
 
 			hue_slider.hue_changed.connect (update_hue);
 			color_box.prepend (chooser);
+			options_combo.active = 0;
+			options_combo.changed.connect (update_entry_content);
 
 			update_hue ();
 		}
@@ -74,18 +75,40 @@ namespace Colorful {
 	            1
 	        };
 
-	        rgb_entry.text = color_image.color.to_string ();
-	        hsv_entry.text = "hsv(%i,%i,%i)".printf (
-	            (int) (hue_slider.current_hue * 360),
-	            (int) (s * 360),
-	            (int) (v * 360)
-	        );
+	        update_entry_content ();
+		}
 
-	        double red = r * 255;
-            double green = g * 255;
-            double blue = b * 255;
+		private void update_entry_content () {
+		    Gdk.RGBA color = color_image.color;
+		    float r = color.red;
+		    float g = color.green;
+		    float b = color.blue;
 
-            hex_entry.text = "#%02x%02x%02x".printf ((uint)red, (uint)green, (uint)blue);
+            float h, s, v;
+            Gtk.rgb_to_hsv (r, g, b, out h, out s, out v);
+
+	        switch (options_combo.get_active_text ()) {
+	            case "RGB":
+	                color_entry.text = color_image.color.to_string ();
+	                break;
+
+	            case "HSV":
+	                color_entry.text = color_image.color.to_string ();
+	                color_entry.text = "hsv(%i,%i,%i)".printf (
+	                    (int) (hue_slider.current_hue * 360),
+	                    (int) (s * 360),
+	                    (int) (v * 360)
+	                );
+	                break;
+
+	            case "HEX":
+                    double red = r * 255;
+                    double green = g * 255;
+                    double blue = b * 255;
+
+                    color_entry.text = "#%02x%02x%02x".printf ((uint)red, (uint)green, (uint)blue);
+                    break;
+	        }
 		}
 
 		[GtkCallback]
