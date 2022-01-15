@@ -1,6 +1,6 @@
 [Desktop Entry]
-Name=colorful
-Exec=colorful
+Name=Colorful
+Exec=colorfulgtk
 Icon=io.github.diegoivanme.colorful
 Terminal=false
 Type=Application
